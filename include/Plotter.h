@@ -29,6 +29,16 @@
 using namespace std;
 
 /**
+ * @brief Enum which indicates the style of the plot.
+ *
+ * The style can be:
+ * - Lines: The data determines lines, where the points are no plotted.
+ * - Points: Just the points are plotted.
+ * - Linespoints: Both lines and points are plotted.
+ */
+enum Style { LINES, POINTS, LINESPOINTS};
+
+/**
  * @brief Class which collects all the information needed to plot a file.
  *        Afterwards, it can build a bash file with the code needed to do the plot.
  */
@@ -49,9 +59,9 @@ class Plotter {
         char delimiter;
 
         /**
-         * @brief Name of the file to plot.
+         * @brief Vector with the name of the files to plot.
          */
-        string file_name;
+        vector<string> file_names;
 
         /**
          * @brief Name of the file to plot without extensions.
@@ -86,6 +96,11 @@ class Plotter {
          * @brief Name of the script which will produce the image.
          */
         string script_name;
+
+        /**
+         * @brief Style of the plot.
+         */
+        Style style;
 
         /**
          * @brief Title of the image.
@@ -140,7 +155,9 @@ class Plotter {
              delimiter = ',';
              has_legend = false;
              line_width = 2;
+             number_columns = 1;
              script_name = "plot.sh";
+             style = LINESPOINTS;
         }
 
         /**
@@ -148,6 +165,23 @@ class Plotter {
          */
         ~Plotter() {
             delete base_color;
+        }
+
+        /**
+         * @brief Add a name of a file to plot.
+         */
+        inline void addFileName(string file_name) {
+            file_names.push_back(file_name);
+            if (file_name_no_extensions.size() == 0)
+                file_name_no_extensions = nameWhitoutExtensions(file_name);
+        }
+
+        /**
+         * @brief Add the name of a set of files to plot.
+         */
+        inline void addFileNames(vector<string> file_names) {
+            for (int i = 0; i < file_names.size(); i++)
+                addFileName(file_names[i]);
         }
 
         /**
@@ -196,14 +230,6 @@ class Plotter {
          }
 
          /**
-          * @brief Set the name of the file to plot.
-          */
-         inline void setFileName(string file_name) {
-             this->file_name = file_name;
-             file_name_no_extensions = nameWhitoutExtensions(file_name);
-         }
-
-         /**
           * @brief Set has_legend attribute to true.
           */
          inline void setLegend() {
@@ -222,6 +248,18 @@ class Plotter {
           */
          inline void setOutputName(string output_name) {
              this->output_name = output_name;
+         }
+
+         /**
+          * @brief Set the image's style.
+          */
+         inline void setStyle(string style) {
+             if (style == "lines" || style == "l")
+                this->style = LINES;
+             else if (style == "points" || style == "p")
+                this->style = POINTS;
+             else
+                this->style = LINESPOINTS;
          }
 
          /**

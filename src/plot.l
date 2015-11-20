@@ -42,6 +42,13 @@ Plotter pl;
  */
 void stringToRGB(string &rgb, int &red, int &green, int &blue);
 
+/**
+ * @brief Split a string in words by a delimiter, returning a vector with the words obtained.
+ * @param s String to split.
+ * @param delim Delimiter which determines how the string is splitted. It is a space by default.
+ * @return Vector with the words.
+ */
+vector<string> split(const string &s, char delim = ' ');
 %}
 
 letter              [a-zA-Z]
@@ -60,6 +67,8 @@ line                ({delimiter}({word}|{space})+{delimiter})
 
 color_name          (cyan|blue|green|magenta|red|yellow)
 color_rgb           \(?{number},{number},{number}\)?
+
+style               (lines|points|linespoints|l|p|lp)
 
 %%
 
@@ -86,19 +95,24 @@ color_rgb           \(?{number},{number},{number}\)?
 
 -f{space}{word}      {pl.addFileName((string)&yytext[parameter_length+1]);     }
 -f{word}             {pl.addFileName((string)&yytext[parameter_length]);       }
+-f{space}{line}      {pl.addFileNames(split(((string)&yytext[parameter_length+1]).substr(1, yyleng - parameter_length - 3))); }
+-f{line}             {pl.addFileNames(split(((string)&yytext[parameter_length]).substr(1, yyleng - parameter_length - 2)));   }
 
 -l                   {pl.setLegend();}
 
 -o{space}{word}      {pl.setOutputName((string)&yytext[parameter_length+1]);   }
 -o{word}             {pl.setOutputName((string)&yytext[parameter_length]);     }
 
--w{space}{number}    {pl.setLineWidth(atoi(&yytext[parameter_length+1]));      }
--w{number}           {pl.setLineWidth(atoi(&yytext[parameter_length]));        }
+-s{style}            {pl.setStyle((string)&yytext[parameter_length]);          }
+-s{space}{style}     {pl.setStyle((string)&yytext[parameter_length+1]);        }
 
 -t{space}{word}      {pl.setTitle((string)&yytext[parameter_length+1]);        }
 -t{word}             {pl.setTitle((string)&yytext[parameter_length]);          }
 -t{space}{line}      {pl.setTitle(((string)&yytext[parameter_length+1]).substr(1, yyleng - parameter_length-3));    }
 -t{line}             {pl.setTitle(((string)&yytext[parameter_length]).substr(1, yyleng - parameter_length-2));      }
+
+-w{space}{number}    {pl.setLineWidth(atoi(&yytext[parameter_length+1]));      }
+-w{number}           {pl.setLineWidth(atoi(&yytext[parameter_length]));        }
 
 -x{word}             {pl.setXLabel((string) &yytext[parameter_length]);}
 -x{space}{word}      {pl.setXLabel((string) &yytext[parameter_length+1]);}
@@ -110,7 +124,7 @@ color_rgb           \(?{number},{number},{number}\)?
 -y{line}             {pl.setYLabel(((string)&yytext[parameter_length]).substr(1, yyleng - parameter_length-2));}
 -y{space}{line}      {pl.setYLabel(((string)&yytext[parameter_length+1]).substr(1, yyleng - parameter_length-3));}
 
-{word}\.{word}       {}
+{word}\.{word}       {pl.addFileName((string)yytext);}
 
 {space}              {}
 .                    {cout << "Error, the next code is not recognized: "; ECHO; cout << endl; error = true;}
@@ -122,6 +136,17 @@ color_rgb           \(?{number},{number},{number}\)?
 // Point to other file which will be analyzed afterwards.
 int yywrap() {
     return 1;
+}
+
+// Implementation of the split procedure.
+vector<string> split(const string &s, char delim) {
+    vector<string> elems;
+    stringstream ss(s);
+    string item;
+    while (getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+    return elems;
 }
 
 // Implementation of the stringToRGB function.
@@ -165,8 +190,8 @@ int main (int argc, char *argv[]) {
         // Concatenate the input in one string.
         for (int i = 1; i < argc; i++){
             arg = string(argv[i]);
-            cout << arg << endl;
             find_blanc = arg.find(' ');
+
             if (find_blanc != string::npos) {
                 if (arg[0] != '-')
                     input += "\"" + arg + "\"" + ' ';
@@ -174,21 +199,19 @@ int main (int argc, char *argv[]) {
                     input += arg.substr(0,2) + "\"" + arg.substr(2) + "\"" + ' ';
             }
             else input = input + arg + ' ';
-            cout << input << endl;
         }
 
         yy_scan_string(input.c_str());
-
-        // If the input has an error, then the user is told to repair it.
-        if (error) {
-            cout << "Please, check the input since there are lexical errors." << endl;
-            exit(1);
-        }
-
         yylex();
     }
     else{
         cout << "Enter pl -h to see the help menu." << endl;
+    }
+
+    // If the input has an error, then the user is told to repair it.
+    if (error == true) {
+        cout << "Please, check the input since there are lexical errors." << endl;
+        exit(1);
     }
 
     pl.plot();

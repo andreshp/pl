@@ -181,9 +181,9 @@ vector<Color> ColorAlgorithms::generateColorsHue(int number_colors) {
 
     // Add the number of colors to the vector. The hue is distributed uniformly in [0,1].
     for (int i = 0; i < number_colors; i++){
-        cout << (double) i / number_colors << "," << saturation << "," << value << endl;
+//        cout << (double) i / number_colors << "," << saturation << "," << value << endl;
         Color new_color((double) i / number_colors, saturation, value);
-        cout << new_color.r << "," << new_color.g << "," << new_color.b << endl;
+//        cout << new_color.r << "," << new_color.g << "," << new_color.b << endl;
         chosen_colors.push_back(new_color);
 
         // Update value
