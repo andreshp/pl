@@ -37,6 +37,21 @@ void Plotter::buildPlotScript() {
     getline(data, first_line);
     number_columns = count(first_line.begin(), first_line.end(), delimiter) + 1;
 
+    // If the file has legends, then they are saved in a vector.
+    vector<string> legends;
+    if (has_legend) {
+        int del_pos;
+        for (int i = 0; i < number_columns; i++) {
+            del_pos = first_line.find(delimiter);
+            legends.push_back(first_line.substr(0, del_pos != string::npos? del_pos : first_line.size()));
+            first_line = first_line.substr(del_pos+1);
+        }
+
+        // If there was not x label, then the label obtained from the legends is assigned.
+        if (xlabel.size() == 0)
+            xlabel = legends[0];
+    }
+
     out << "#!/bin/bash" << endl << endl;
 
     out << "################################################################################" << endl;
@@ -74,7 +89,9 @@ void Plotter::buildPlotScript() {
         selected_colors = ColorAlgorithms::generateColorsBrightness(*base_color, number_columns-1);
 
     for (int i = 1; i < number_columns; i++){
-        out << "set style line " << i << " lc rgb (rgb(" << selected_colors[i-1].getRed() << "," << selected_colors[i-1].getGreen() << "," << selected_colors[i-1].getBlue() << ")) lt 1 lw " << line_width << " pt 7 pi 0 ps 0.5" << endl;
+        out << "set style line " << i << " lc rgb (rgb(" << selected_colors[i-1].getRed() << "," <<
+            selected_colors[i-1].getGreen() << "," << selected_colors[i-1].getBlue() << ")) lt 1 lw " <<
+            line_width << " pt 7 pi 0 ps 0.5" << endl;
     }
     out << "set pointintervalbox 0" << endl << endl;
 
@@ -86,8 +103,16 @@ void Plotter::buildPlotScript() {
     if (title.size() > 0)
         out << "set title \"" << title << "\" enhanced font 'Verdana,14'" << endl;
 
-//    out << "set xlabel "$XLABEL"" << endl;
-//    out << "set ylabel "$YLABEL"" << endl << endl;
+    // If the file does not have the legends, then it is unset.
+    if (! has_legend)
+        out << "unset key" << endl;
+
+    // If a xlabel has been chosen, then it is used in the plot.
+    if (xlabel.size() > 0)
+        out << "set xlabel \"" << xlabel << "\"" << endl;
+    // If a ylabel has been chosen, then it is used in the plot.
+    if (ylabel.size() > 0)
+        out << "set ylabel \"" << ylabel << "\"" << endl;
 
     out << "# Set the plot range (set offsets <left>, <right>, <top>, <bottom>)" << endl;
     out << "set offsets graph 0, 0, 0.05, 0.05" << endl << endl;
@@ -95,7 +120,21 @@ void Plotter::buildPlotScript() {
     out << "# Plot the data." << endl;
     out << "plot";
     for (int i = 1; i < number_columns; i++){
-        out << " \'" << file_name << "\' using 1:" << i+1 << " title \"mi linea " << i << "\" with linespoints ls " << i;
+        // Output the file name.
+        out << " \'" << file_name << "\' ";
+
+        // If the data has a first line with the legend, then the first line is ignored.
+        if (has_legend)
+            out << "every ::1 ";
+
+        // Output the plot characteristics.
+        out << "using 1:" << i+1 << " ";
+
+        // If the data has the legends, then they are plot.
+        if (has_legend)
+            out << "title \"" << legends[i] << "\" ";
+
+        out << "with linespoints ls " << i;
         if (i < number_columns+1){
             out << ",";
         }

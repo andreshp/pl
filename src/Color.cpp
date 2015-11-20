@@ -182,7 +182,7 @@ vector<Color> ColorAlgorithms::generateColorsHue(int number_colors) {
     // Add the number of colors to the vector. The hue is distributed uniformly in [0,1].
     for (int i = 0; i < number_colors; i++){
         cout << (double) i / number_colors << "," << saturation << "," << value << endl;
-        Color new_color((double) i / (number_colors-1), saturation, value);
+        Color new_color((double) i / number_colors, saturation, value);
         cout << new_color.r << "," << new_color.g << "," << new_color.b << endl;
         chosen_colors.push_back(new_color);
 
@@ -199,7 +199,7 @@ vector<Color> ColorAlgorithms::generateColorsHue(int number_colors) {
     return chosen_colors;
 }
 
-//---------------------------- generateColorsBrightness -----------------------------//
+//------------------------- generateColorsBrightness -------------------------//
 
 vector<Color> ColorAlgorithms::generateColorsBrightness(Color base_color, int number_colors) {
 
@@ -221,7 +221,6 @@ vector<Color> ColorAlgorithms::generateColorsBrightness(Color base_color, int nu
         if (hue > 1)
             hue -= 1;
     }
-
 
     return chosen_colors;
 }

@@ -23,20 +23,28 @@ set border linewidth 1.5
 # Style and line color.
 # Function which passes rgb to gnuplot scale.
 rgb(r,g,b) = r * 2**16 + g * 2**8  + b
-set style line 1 lc rgb (rgb(61,76,61)) lt 1 lw 6 pt 7 pi 0 ps 0.5
-set style line 2 lc rgb (rgb(41,136,59)) lt 1 lw 6 pt 7 pi 0 ps 0.5
-set style line 3 lc rgb (rgb(119,195,124)) lt 1 lw 6 pt 7 pi 0 ps 0.5
-set style line 4 lc rgb (rgb(39,254,29)) lt 1 lw 6 pt 7 pi 0 ps 0.5
+set style line 1 lc rgb (rgb(204,61,61)) lt 1 lw 2 pt 7 pi 0 ps 0.5
+set style line 2 lc rgb (rgb(204,146,61)) lt 1 lw 2 pt 7 pi 0 ps 0.5
+set style line 3 lc rgb (rgb(175,204,61)) lt 1 lw 2 pt 7 pi 0 ps 0.5
+set style line 4 lc rgb (rgb(89,204,61)) lt 1 lw 2 pt 7 pi 0 ps 0.5
+set style line 5 lc rgb (rgb(61,204,118)) lt 1 lw 2 pt 7 pi 0 ps 0.5
+set style line 6 lc rgb (rgb(61,204,204)) lt 1 lw 2 pt 7 pi 0 ps 0.5
+set style line 7 lc rgb (rgb(61,118,204)) lt 1 lw 2 pt 7 pi 0 ps 0.5
+set style line 8 lc rgb (rgb(89,61,204)) lt 1 lw 2 pt 7 pi 0 ps 0.5
+set style line 9 lc rgb (rgb(175,61,204)) lt 1 lw 2 pt 7 pi 0 ps 0.5
+set style line 10 lc rgb (rgb(204,61,146)) lt 1 lw 2 pt 7 pi 0 ps 0.5
 set pointintervalbox 0
 
 # Set the image name.
 set output 'example.png'
 
 # Set the tittle and the labels.
+set xlabel "Axis X"
+set ylabel "Axis Y"
 # Set the plot range (set offsets <left>, <right>, <top>, <bottom>)
 set offsets graph 0, 0, 0.05, 0.05
 
 # Plot the data.
-plot 'example.csv' using 1:2 title "mi linea 1" with linespoints ls 1, 'example.csv' using 1:3 title "mi linea 2" with linespoints ls 2, 'example.csv' using 1:4 title "mi linea 3" with linespoints ls 3, 'example.csv' using 1:5 title "mi linea 4" with linespoints ls 4,
+plot 'example.csv' every ::1 using 1:2 title "1" with linespoints ls 1, 'example.csv' every ::1 using 1:3 title "2" with linespoints ls 2, 'example.csv' every ::1 using 1:4 title "3" with linespoints ls 3, 'example.csv' every ::1 using 1:5 title "4" with linespoints ls 4, 'example.csv' every ::1 using 1:6 title "5" with linespoints ls 5, 'example.csv' every ::1 using 1:7 title "6" with linespoints ls 6, 'example.csv' every ::1 using 1:8 title "7" with linespoints ls 7, 'example.csv' every ::1 using 1:9 title "8" with linespoints ls 8, 'example.csv' every ::1 using 1:10 title "9" with linespoints ls 9, 'example.csv' every ::1 using 1:11 title "10" with linespoints ls 10,
 
 END

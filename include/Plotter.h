@@ -58,6 +58,17 @@ class Plotter {
          */
         string file_name_no_extensions;
 
+        /**
+         * @brief Indicate if the file data has a first line with the legend names.
+         */
+        bool has_legend;
+
+        /**
+         * @brief Width of the lines.
+         *
+         * It is 2 by default.
+         */
+        int line_width;
 
         /**
          * @brief Number of columns in the data.
@@ -82,11 +93,14 @@ class Plotter {
         string title;
 
         /**
-         * @brief Width of the lines.
-         *
-         * It is 2 by default.
+         * @brief Label for the x axix.
          */
-        int line_width;
+        string xlabel;
+
+        /**
+         * @brief Label for the y axix.
+         */
+        string ylabel;
 
         /**
          * @brief Build a bash script which can be runed to plot the image.
@@ -124,6 +138,7 @@ class Plotter {
         Plotter() {
              base_color = 0;
              delimiter = ',';
+             has_legend = false;
              line_width = 2;
              script_name = "plot.sh";
         }
@@ -189,6 +204,13 @@ class Plotter {
          }
 
          /**
+          * @brief Set has_legend attribute to true.
+          */
+         inline void setLegend() {
+             has_legend = true;
+         }
+
+         /**
           * @brief Set the image's line width.
           */
          inline void setLineWidth(int line_width) {
@@ -208,6 +230,21 @@ class Plotter {
          inline void setTitle(string title) {
              this->title = title;
          }
+
+         /**
+          * @brief Set the image's xlabel.
+          */
+         inline void setXLabel(string xlabel) {
+             this->xlabel = xlabel;
+         }
+
+         /**
+          * @brief Set the image's ylabel.
+          */
+         inline void setYLabel(string ylabel) {
+             this->ylabel = ylabel;
+         }
+
 };
 
 #endif
