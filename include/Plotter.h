@@ -18,15 +18,22 @@
 
 #include <algorithm>    // count
 #include <cstdlib>      // system
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <limits.h>
 #include <sstream>
 #include <stdexcept>    // exceptions
 #include <string>
+#include <unistd.h>
 
 #include "Color.h"
 
 using namespace std;
+
+/**
+ * @brief Get the path of the executable.
+ */
+string getSelfPath();
 
 /**
  * @brief Enum which indicates the style of the plot.
@@ -188,6 +195,13 @@ class Plotter {
         inline void addFileNames(vector<string> file_names) {
             for (int i = 0; i < file_names.size(); i++)
                 addFileName(file_names[i]);
+        }
+
+        /**
+         * @brief pl help.
+         */
+        inline void help() {
+            system( ("cat " + getSelfPath() + "/doc/help/help.txt").c_str() );
         }
 
         /**

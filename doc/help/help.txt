@@ -1,0 +1,61 @@
+        pl, a command line interface for gnuplot
+
+
+pl allows the user to make 2D plots in just a line of code.
+
+SYPNOSIS
+
+pl <some arguments> <files with the data to plot> <other arguments>
+
+DESCRIPTION
+
+pl plots files with at least two columns separated by a delimiter. The first one contains the abscissas of the points to plot. Each of the other columns contains an ordinate for each abscissa, defining a point which is plotted. The points in the same column represent a line and are plotted with the same color.
+
+You can execute `pl -e` to obtain a file example.csv which is easily plotted executing `pl example.csv`.
+
+pl consider as files those words wich contains a dot, such as example.csv. You can pass as many files as you want, obtaining an image with all the associated lines with differents colors. However, if your file does not contain a dot, please, use the argument -f before the file name.
+
+PARAMETERS
+
+-c <color name>
+ Plots the image with variations of the color chosen. You can choose among: blue, cyan, green, magenta, red and yellow.
+
+ -c <R,G,B>
+ Plots the image with variations of the color chosen. You must provide a tuple R,G,B with the color's RGB representation. Each value is an integer between 0 and 255.
+
+ -d <character>
+ The given character is set as the files delimiter. This character is set to ',' by default.
+
+ -e
+ Builds an example .csv file and exits afterwards. This file can be used to try pl.
+
+ -f <file name or multiple files names between "">
+ The given files are plotted. You can provide files names without -f if they contain a dot.
+
+ -h
+ Shows the command help.
+
+ -k
+ Keeps the file plot.sh with the instruction to make the plot with gnuplot.
+
+ -l
+ The program will take the first entry in each column as the legend.
+
+ -o <file name>
+ Sets the name of the plotted image.
+
+ -s <style>
+ Sets the style of the plotted lines. You can choose among points, lines and linespoints (chosen by default). Possible uses are:
+ -l points, -l lines, -l linespoints or, respectively, -lp, -ll, -llp
+
+-t <title>
+Sets the image's title. You can provide a word or a line of text between "".
+
+-w <line width>
+Sets the line's width to the chosen integer, starting at 0. It is set to 2 by default.
+
+-x <x label>
+Sets the image's label for the x axis. You can provide a word or a line of text between "".
+
+-y <y label>
+Sets the image's label for the y axis. You can provide a word or a line of text between "".

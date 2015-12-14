@@ -11,10 +11,8 @@
 
 #include <fstream>
 #include <iostream>
-#include <limits.h>
 #include <string>
 #include <stdexcept>
-#include <unistd.h>
 
 #include "Plotter.h"
 
@@ -41,11 +39,6 @@ const int parameter_length = 2;
 Plotter pl;
 
 /**
- * @brief Get the path of the executable.
- */
-string getSelfPath();
-
-/**
  * @brief Converts a string of the form r,g,b to the rgb tuple with the values.
  * @param rgb String with a rgb tuple writen as r,g,b or (r,g,b).
  * @param red Variable where the red value will be saved.
@@ -67,7 +60,7 @@ letter              [a-zA-Z]
 digit               [0-9]
 number              {digit}+
 space               [ \t]+
-other_characters    [!#$%&'\*\+-\/=?\^_`{\|}~]
+other_characters    [!#$%&'\*\+-\/=?\^_`{\|}~.]
 
 delimiter           ["']
 character           {letter}|{digit}|{other_characters}
@@ -89,7 +82,6 @@ style               (lines|points|linespoints|l|p|lp)
 -c{color_name}            {pl.setBaseColor((string) &yytext[parameter_length]);   }
 -c{space}{color_name}     {pl.setBaseColor((string) &yytext[parameter_length+1]); }
 
-
 -c{color_rgb}             {int red, green, blue;
                            string rgb = (string) &yytext[parameter_length];
                            stringToRGB(rgb, red, green, blue);
@@ -98,7 +90,6 @@ style               (lines|points|linespoints|l|p|lp)
                            string rgb = (string) &yytext[parameter_length+1];
                            stringToRGB(rgb, red, green, blue);
                            pl.setBaseColor(red, green, blue);                  }
-
 
 -d{character}             {pl.setFileDelimiter((char)yytext[parameter_length]);   }
 -d{space}{character}      {pl.setFileDelimiter((char)yytext[parameter_length+1]); }
@@ -112,9 +103,13 @@ style               (lines|points|linespoints|l|p|lp)
 -f{space}{line}      {pl.addFileNames(split(((string)&yytext[parameter_length+1]).substr(1, yyleng - parameter_length - 3))); }
 -f{line}             {pl.addFileNames(split(((string)&yytext[parameter_length]).substr(1, yyleng - parameter_length - 2)));   }
 
+-h                   {pl.help(); exit(0);}
+
 -k                   {pl.keepPlotFile();}
 
 -l                   {pl.setLegend();}
+
+-kl                   {pl.keepPlotFile(); pl.setLegend();}
 
 -o{space}{word}      {pl.setOutputName((string)&yytext[parameter_length+1]);   }
 -o{word}             {pl.setOutputName((string)&yytext[parameter_length]);     }
@@ -152,16 +147,6 @@ style               (lines|points|linespoints|l|p|lp)
 // Point to other file which will be analyzed afterwards.
 int yywrap() {
     return 1;
-}
-
-// Implementation of the getSelfPath procedure.
-string getSelfPath() {
-    char buff[PATH_MAX];
-    ssize_t len = ::readlink("/proc/self/exe", buff, sizeof(buff)-1);
-    if (len >= 6) {
-      buff[len-6] = '\0';
-      return string(buff);
-    }
 }
 
 // Implementation of the split procedure.

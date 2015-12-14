@@ -173,3 +173,15 @@ void Plotter::checkData() {
     if (output_name.size() == 0)
         output_name = file_name_no_extensions + ".png";
 }
+
+
+//------------------------------- getSelfPath --------------------------------//
+
+string getSelfPath() {
+    char buff[PATH_MAX];
+    ssize_t len = ::readlink("/proc/self/exe", buff, sizeof(buff)-1);
+    if (len >= 6) {
+      buff[len-6] = '\0';
+      return string(buff);
+    }
+}
