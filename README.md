@@ -69,13 +69,13 @@ If your file name does not contains a dot, then you must pass it using the param
 
 ### Simple configurations
 
-- **-o filename** Sets the name of the plotted image.
+- **-o \<file name\>** Sets the name of the plotted image.
 
-- **-t title** Sets the image's title. You can provide a word or a text line between "".
+- **-t \<title\>** Sets the image's title. You can provide a word or a text line between " ".
 
-- **-x x-label** Sets the image's label for the x axis. You can provide a word or a text line between "".
+- **-x \<x label\>** Sets the image's label for the x axis. You can provide a word or a text line between " ".
 
-- **-y y-label** Sets the image's label for the y axis. You can provide a word or a text line between "".
+- **-y \<y label\>** Sets the image's label for the y axis. You can provide a word or a text line between " ".
 
 - **-l** The program will take the first entry in each column as the legend. If there is no label for the x axis, then the first entry in the abscissas' column will be used instead.
 
