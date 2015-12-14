@@ -55,7 +55,7 @@ void Plotter::buildPlotScript() {
     }
 
     // If there was not x label, then the label obtained from the legends is assigned.
-    if (xlabel.size() == 0)
+    if (xlabel.size() == 0 && has_legend)
         xlabel = legends[0];
 
     out << "#!/bin/bash" << endl << endl;
