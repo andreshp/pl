@@ -12,6 +12,8 @@ A command line interface for gnuplot.
 
 You only has to pass the file with the data as an argument and `pl` will do the plot for you! For example, the previous image was plotted using `pl example.csv -t "An example with pl" -x "X Axis" -y "Y Axis"`.
 
+*The command `pl -e` provides the file example.csv.*
+
 ## Instalation
 
 1. You can clone the repository with `git clone` or download the [zip file](https://github.com/andreshp/pl/archive/master.zip).
@@ -61,10 +63,10 @@ Then we can plot both files at the same time (`pl lines1.csv lines2.csv`):
 
 Note that we could have used regular expressions in bash to simplify the input: `pl *.csv`.
 
+If your file name does not contains a dot, then you should pass it using `-f filename`.
+
+
 ###
-
-
-You can execute `pl -e` to obtain a file example.csv which is easily plotted executing `pl example.csv`.
 
 pl consider as files those words wich contains a dot, such as example.csv. You can pass as many files as you want, obtaining an image with all the associated lines with differents colors. However, if your file does not contain a dot, please, use the argument -f before the file name.
 
