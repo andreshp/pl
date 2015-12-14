@@ -49,16 +49,16 @@ PARAMETERS
  -l points, -l lines, -l linespoints or, respectively, -lp, -ll, -llp
 
 -t <title>
-Sets the image's title. You can provide a word or a line of text between "".
+Sets the image's title. You can provide a word or a text line between "".
 
 -w <line width>
 Sets the line's width to the chosen integer, starting at 0. It is set to 2 by default.
 
 -x <x label>
-Sets the image's label for the x axis. You can provide a word or a line of text between "".
+Sets the image's label for the x axis. You can provide a word or a text line between "".
 
 -y <y label>
-Sets the image's label for the y axis. You can provide a word or a line of text between "".
+Sets the image's label for the y axis. You can provide a word or a text line between "".
 
 AUTHOR
 

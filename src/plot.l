@@ -29,11 +29,6 @@ bool error = false;
 const int parameter_length = 2;
 
 /**
- * @brief Maximum length of an unix' path.
- */
-//const int PATH_MAX = 1000;
-
-/**
  * @brief The plotter which collects all the information.
  */
 Plotter pl;

@@ -48,7 +48,9 @@ If it is plotted using `pl lines1.csv`, then we obtain the following image:
 
 ![](https://github.com/andreshp/pl/blob/master/images/lines1.png)
 
-These kinds of graphics are very useful comparing algorithms' performance. However, algorithms data could be in different files with different abscissas' values. `pl` accepts multiple files as arguments, plotting all the data in one image. Let's consider another file with lines:
+The previous file follows the csv standard. However, you could use a different delimiter than a comma with the parameter `-d <character>`.
+
+These kinds of graphics are very useful comparing algorithms' performance. However, algorithms' data could be in various files with different abscissas' values. `pl` accepts multiple files as arguments, plotting all the data in one image. Let's consider another file with lines:
 
 ~~~
 0,0.5,1.5,2.5,3.5
@@ -57,73 +59,69 @@ These kinds of graphics are very useful comparing algorithms' performance. Howev
 3,0.5,1.5,2.5,3.5
 ~~~
 
-Then we can plot both files at the same time (`pl lines1.csv lines2.csv`):
+Then, we can plot both files at the same time (`pl lines1.csv lines2.csv`):
 
-![](https://github.com/andreshp/pl/blob/master/images/both_files.png)
+![](https://github.com/andreshp/pl/blob/master/images/both_lines.png)
 
 Note that we could have used regular expressions in bash to simplify the input: `pl *.csv`.
 
-If your file name does not contains a dot, then you should pass it using `-f filename`.
+If your file name does not contains a dot, then you must pass it using the parameter `-f filename`.
 
+### Simple configurations
 
-###
+- **-o <file name>** Sets the name of the plotted image.
 
-pl consider as files those words wich contains a dot, such as example.csv. You can pass as many files as you want, obtaining an image with all the associated lines with differents colors. However, if your file does not contain a dot, please, use the argument -f before the file name.
+- **-t <title>** Sets the image's title. You can provide a word or a text line between "".
 
-PARAMETERS
+- **-x <x label>** Sets the image's label for the x axis. You can provide a word or a text line between "".
 
--c <color name>
-Plots the image with variations of the color chosen. You can choose among: blue, cyan, green, magenta, red and yellow.
+- **-y <y label>** Sets the image's label for the y axis. You can provide a word or a text line between "".
 
--c <R,G,B>
-Plots the image with variations of the color chosen. You must provide a tuple R,G,B with the color's RGB representation. Each value is an integer between 0 and 255.
+- **-l** The program will take the first entry in each column as the legend. If there is no label for the x axis, then the first entry in the abscissas' column will be used instead.
 
--d <character>
-The given character is set as the files delimiter. This character is set to ',' by default.
+For example, you can use `pl lines_legend.csv -o my_plot.png -l -t "Some lines with legend." -y "Y Axis"` to plot:
 
--e
-Builds an example .csv file and exits afterwards. This file can be used to try pl.
+~~~
+X Axis,Line 1, Line 2, Line 3, Line 4
+0,0,1,2,3
+1,0,1,2,3
+2,0,1,2,3
+3,0,1,2,3
+~~~
 
--f <file name or multiple files names between "">
-The given files are plotted. You can provide files names without -f if they contain a dot.
+![](https://github.com/andreshp/pl/blob/master/images/my_plot.png)
 
--h
-Shows the command help.
-
--k
-Keeps the file plot.sh with the instruction to make the plot with gnuplot.
-
--l
-The program will take the first entry in each column as the legend.
-
--o <file name>
-Sets the name of the plotted image.
-
+### Lines' style
 -s <style>
 Sets the style of the plotted lines. You can choose among points, lines and linespoints (chosen by default). Possible uses are:
 -l points, -l lines, -l linespoints or, respectively, -lp, -ll, -llp
 
--t <title>
-Sets the image's title. You can provide a word or a line of text between "".
 
 -w <line width>
 Sets the line's width to the chosen integer, starting at 0. It is set to 2 by default.
 
--x <x label>
-Sets the image's label for the x axis. You can provide a word or a line of text between "".
 
--y <y label>
-Sets the image's label for the y axis. You can provide a word or a line of text between "".
+### Colors used in the images
 
-AUTHOR
+- -c <color name>
+Plots the image with variations of the color chosen. You can choose among: blue, cyan, green, magenta, red and yellow.
+
+- -c <R,G,B>
+Plots the image with variations of the color chosen. You must provide a tuple R,G,B with the color's RGB representation. Each value is an integer between 0 and 255.
+
+For example, this would be the result of
+
+### Others parameters
+
+- **-k** Keeps a script plot.sh with the code to make the plot from bash.
+
+- For more information about the parameters you can use `pl -h`.
+
+## AUTHOR
 
 Andrés Herrera Poyatos
 
-LICENSE
+## LICENSE
 
 The MIT License (MIT)
 Copyright (c) 2015 Andrés Herrera Poyatos
-
-SEE ALSO
-
-Full documentation with images and example at <https://github.com/andreshp/pl>.
