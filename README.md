@@ -33,13 +33,13 @@ pl -y "Y Axis" example.csv -x "X Axis" -t "An example with pl"
 
 ### Files with data
 
-`pl` can plot multiple files at the same file. The files passed to `pl` must contain at least two columns separated by a delimiter. The first column contains the abscissas of the points to plot. Each of the other columns must contain an ordinate for each abscissa, defining a point which will be plotted by `pl`. The points in the same column represent a function and are plotted with the same color. For example, the following one is a file with 5 lines:
+`pl` can plot multiple files at the same file. The files passed to `pl` must contain at least two columns separated by a delimiter. The first column contains the abscissas of the points to plot. Each of the other columns must contain an ordinate for each abscissa, defining a point which will be plotted by `pl`. The points in the same column represent a function and are plotted with the same color. For example, the following one is a file with 4 lines:
 
 ~~~
-0,0,1,2,3,4
-1,0,1,2,3,4
-2,0,1,2,3,4
-3,0,1,2,3,4
+0,0,1,2,3
+1,0,1,2,3
+2,0,1,2,3
+3,0,1,2,3
 ~~~
 
 If it is plotted using `pl lines1.csv`, then we obtain the following image:
@@ -49,15 +49,17 @@ If it is plotted using `pl lines1.csv`, then we obtain the following image:
 These kinds of graphics are very useful comparing algorithms' performance. However, algorithms data could be in different files with different abscissas' values. `pl` accepts multiple files as arguments, plotting all the data in one image. Let's consider another file with lines:
 
 ~~~
-0,0.5,1.5,2.5,3.5,4.5
-1,0.5,1.5,2.5,3.5,4.5
-2,0.5,1.5,2.5,3.5,4.5
-3,0.5,1.5,2.5,3.5,4.5
+0,0.5,1.5,2.5,3.5
+0.5,0.5,1.5,2.5,3.5
+2.5,0.5,1.5,2.5,3.5
+3,0.5,1.5,2.5,3.5
 ~~~
 
 Then we can plot both files at the same time (`pl lines1.csv lines2.csv`):
 
+![](https://github.com/andreshp/pl/blob/master/images/both_files.png)
 
+Note that we could have used regular expressions in bash to simplify the input: `pl *.csv`.
 
 ###
 
