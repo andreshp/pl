@@ -123,11 +123,11 @@ For example, the following image is the result of plotting the file `example.png
 
 *To obtain information about the parameters from the command line you can use `pl -h`.*
 
-## AUTHOR
+## Author
 
 Andrés Herrera Poyatos
 
-## LICENSE
+## License
 
 The MIT License (MIT)
 Copyright (c) 2015 Andrés Herrera Poyatos
