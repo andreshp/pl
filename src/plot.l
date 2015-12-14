@@ -206,6 +206,7 @@ int main (int argc, char *argv[]) {
     }
     else{
         cout << "Enter pl -h to see the help menu." << endl;
+        exit(1);
     }
 
     // If the input has an error, then the user is told to repair it.

@@ -36,14 +36,22 @@ OBJECTS=$(OBJ)/main.o
 #---------------------------------- Rules -------------------------------------#
 
 # Compile the whole project.
-compile: check_gnuplot make_directories $(BIN)/$(EXECUTABLE)
+compile: check_gnuplot check_lex make_directories $(BIN)/$(EXECUTABLE) final_comments
 
 # Check if gnuplot is installed. If it is not, then tell the user to install it.
 check_gnuplot:
 	@if [ `dpkg-query -W gnuplot | grep -c "no packages found"` = 1 ]; then \
 		echo "The program gnuplot is required.\nPlease, install it using the following command:\n"; \
 		echo "sudo apt-get install gnuplot\n"; \
-		@exit 2
+		exit 2; \
+	fi
+
+# Check if lex is installed. If it is not, then tell the user to install it.
+check_lex:
+	@if [ `dpkg-query -W flex | grep -c "no packages found"` = 1 ]; then \
+		echo "The program flex is required.\nPlease, install it using the following command:\n"; \
+		echo "sudo apt-get install flex\n"; \
+		exit 2; \
 	fi
 
 # Make all the directories.
@@ -55,6 +63,10 @@ make_directories:
 	mkdir -p $(OBJ)
 	mkdir -p $(SCRIPT)
 	mkdir -p $(SRC)
+
+final_comments:
+	@echo "\nIf you want to use pl as an usual bash command, then add the following code to your .bashrc file:"
+	@echo "PATH=\$$PATH:`pwd`/bin"
 
 # Build the executable file
 $(BIN)/$(EXECUTABLE): $(OBJ)/main.o $(OBJ)/Plotter.o $(OBJ)/Color.o
