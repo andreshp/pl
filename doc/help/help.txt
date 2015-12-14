@@ -46,7 +46,7 @@ PARAMETERS
 
  -s <style>
  Sets the style of the plotted lines. You can choose among points, lines and linespoints (chosen by default). Possible uses are:
- -l points, -l lines, -l linespoints or, respectively, -lp, -ll, -llp
+ -s points, -s lines, -s linespoints or, respectively, -sp, -sl, -slp
 
 -t <title>
 Sets the image's title. You can provide a word or a text line between "".

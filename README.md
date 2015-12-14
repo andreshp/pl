@@ -69,6 +69,8 @@ If your file name does not contains a dot, then you must pass it using the param
 
 ### Simple configurations
 
+The following parameters allows to change the image's name, title and labels.
+
 - **-o \<file name\>** Sets the name of the plotted image.
 
 - **-t \<title\>** Sets the image's title. You can provide a word or a text line between " ".
@@ -92,30 +94,34 @@ X Axis,Line 1, Line 2, Line 3, Line 4
 ![](https://github.com/andreshp/pl/blob/master/images/my_plot.png)
 
 ### Lines' style
--s <style>
-Sets the style of the plotted lines. You can choose among points, lines and linespoints (chosen by default). Possible uses are:
--l points, -l lines, -l linespoints or, respectively, -lp, -ll, -llp
 
+By default, `pl` plots the data using lines and points at the same time. However, you can use another style if you want typing the parameter **-s \<style\>**. It supports 3 different styles: lines, points and linespoints. You could use -sp, -sl and -slp respectively.
 
--w <line width>
-Sets the line's width to the chosen integer, starting at 0. It is set to 2 by default.
-
+In any case, the points and lines' width can be changed using the parameter **-w \<line width\>**, which sets the width to the chosen integer, starting at 0. The width is set to 2 by default.
 
 ### Colors used in the images
 
-- -c <color name>
-Plots the image with variations of the color chosen. You can choose among: blue, cyan, green, magenta, red and yellow.
+To select the colors, `pl` uses the [HSV space](https://en.wikipedia.org/wiki/HSL_and_HSV). In this space the colors are represented by 3 components:
 
-- -c <R,G,B>
-Plots the image with variations of the color chosen. You must provide a tuple R,G,B with the color's RGB representation. Each value is an integer between 0 and 255.
+- **Hue** : The attribute of a visual sensation according to which an area appears to be similar to one of the perceived colors: red, green, and blue, or to a combination of two of them.
 
-For example, this would be the result of
+- **Saturation** : The intensity of a color relative to its own brightness.
 
-### Others parameters
+- **Value or brightness** : The attribute of a visual sensation according to which an area appears to emit more or less light.
 
-- **-k** Keeps a script plot.sh with the code to make the plot from bash.
+By default, `pl` chooses colors with the same saturation and value. The hue is selected uniformly in the interval in order to obtain different colors. However, if you want to use colors with similar hue, then `pl` provides the following parameters:
 
-- For more information about the parameters you can use `pl -h`.
+- **-c \<color name\>** : Plots the image with variations of the color chosen. You can choose among: blue, cyan, green, magenta, red and yellow.
+
+- **-c \<R,G,B\>** : Plots the image with variations of the color chosen. You must provide a tuple R,G,B with the color's RGB representation. Each value is an integer between 0 and 255.
+
+The first one converts the chosen color to RGB to perform the computations. The colors generated have similar hue. The brightness is selected uniformly, obtaining dark and clear colors. The colors also have different saturations in order to generate colors as different as possible.
+
+For example, the following image is the result of plotting the file `example.png` with `cyan`.
+
+![](https://github.com/andreshp/pl/blob/master/images/example_cyan.png)
+
+*To obtain information about the parameters from the command line you can use `pl -h`.*
 
 ## AUTHOR
 
