@@ -74,6 +74,11 @@ class Plotter {
         bool has_legend;
 
         /**
+         * @brief Indicate if the plot.sh file is kept or not.
+         */
+        bool is_sh_kept;
+
+        /**
          * @brief Width of the lines.
          *
          * It is 2 by default.
@@ -154,6 +159,7 @@ class Plotter {
              base_color = 0;
              delimiter = ',';
              has_legend = false;
+             is_sh_kept = false;
              line_width = 2;
              number_columns = 1;
              script_name = "plot.sh";
@@ -185,6 +191,14 @@ class Plotter {
         }
 
         /**
+         * @brief Set is_sh_kept to true. Consecuently, the file plot.sh will
+         *        saved after the execution.
+         */
+        inline void keepPlotFile() {
+            is_sh_kept = true;
+        }
+
+        /**
          * @brief Plot the image.
          *
          * It uses the function buildPlotScript to generate a bash script which
@@ -194,6 +208,9 @@ class Plotter {
             checkData();
             buildPlotScript();
             system( ("bash " + script_name).c_str() );
+            if (! is_sh_kept) {
+                system( ("rm " + script_name ).c_str() );
+            }
         }
 
         /**

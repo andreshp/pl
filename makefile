@@ -31,8 +31,6 @@ SRC=./src
 
 EXECUTABLE=pl
 
-OBJECTS=$(OBJ)/main.o
-
 #---------------------------------- Rules -------------------------------------#
 
 # Compile the whole project.
@@ -58,11 +56,8 @@ check_lex:
 make_directories:
 	@echo "Building all the directories..."
 	mkdir -p $(BIN)
-	mkdir -p $(DOC)
-	mkdir -p $(INCLUDE)
 	mkdir -p $(OBJ)
-	mkdir -p $(SCRIPT)
-	mkdir -p $(SRC)
+
 
 final_comments:
 	@echo "\nIf you want to use pl as an usual bash command, then add the following code to your .bashrc file:"

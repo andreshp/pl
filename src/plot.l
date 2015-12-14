@@ -9,10 +9,12 @@
 
 %{
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <limits.h>
 #include <string>
 #include <stdexcept>
+#include <unistd.h>
 
 #include "Plotter.h"
 
@@ -29,9 +31,19 @@ bool error = false;
 const int parameter_length = 2;
 
 /**
+ * @brief Maximum length of an unix' path.
+ */
+//const int PATH_MAX = 1000;
+
+/**
  * @brief The plotter which collects all the information.
  */
 Plotter pl;
+
+/**
+ * @brief Get the path of the executable.
+ */
+string getSelfPath();
 
 /**
  * @brief Converts a string of the form r,g,b to the rgb tuple with the values.
@@ -93,10 +105,14 @@ style               (lines|points|linespoints|l|p|lp)
 -d{char_delimited}        {pl.setFileDelimiter((char)yytext[parameter_length+1]); }
 -d{space}{char_delimited} {pl.setFileDelimiter((char)yytext[parameter_length+2]); }
 
+-e                   {system( ("python3 " + getSelfPath() + "/script/example.py").c_str() ); exit(0);          }
+
 -f{space}{word}      {pl.addFileName((string)&yytext[parameter_length+1]);     }
 -f{word}             {pl.addFileName((string)&yytext[parameter_length]);       }
 -f{space}{line}      {pl.addFileNames(split(((string)&yytext[parameter_length+1]).substr(1, yyleng - parameter_length - 3))); }
 -f{line}             {pl.addFileNames(split(((string)&yytext[parameter_length]).substr(1, yyleng - parameter_length - 2)));   }
+
+-k                   {pl.keepPlotFile();}
 
 -l                   {pl.setLegend();}
 
@@ -136,6 +152,16 @@ style               (lines|points|linespoints|l|p|lp)
 // Point to other file which will be analyzed afterwards.
 int yywrap() {
     return 1;
+}
+
+// Implementation of the getSelfPath procedure.
+string getSelfPath() {
+    char buff[PATH_MAX];
+    ssize_t len = ::readlink("/proc/self/exe", buff, sizeof(buff)-1);
+    if (len >= 6) {
+      buff[len-6] = '\0';
+      return string(buff);
+    }
 }
 
 // Implementation of the split procedure.
