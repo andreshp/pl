@@ -1,6 +1,6 @@
 # `pl`
 
-A command line interface for gnuplot.
+A plot command based on gnuplot.
 
 ## What can `pl` do for you?
 
@@ -69,9 +69,9 @@ If your file name does not contains a dot, then you must pass it using the param
 
 ### Simple configurations
 
-The following parameters allows to change the image's name, title and labels.
+The following parameters allows to change the image's name, title, labels and legends.
 
-- **-o \<file name\>** Sets the name of the plotted image.
+- **-o \<image name\>** Sets the name of the plotted image.
 
 - **-t \<title\>** Sets the image's title. You can provide a word or a text line between " ".
 

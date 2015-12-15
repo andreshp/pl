@@ -1,0 +1,11 @@
+\select@language {spanish}
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{3}
+\contentsline {section}{\numberline {2}\IeC {\textquestiondown }Por qu\IeC {\'e} utilizar \textit {Lex}?}{3}
+\contentsline {section}{\numberline {3}\IeC {\textquestiondown }C\IeC {\'o}mo funciona \texttt {pl}?}{4}
+\contentsline {subsection}{\numberline {3.1}\IeC {\textquestiondown }Qu\IeC {\'e} se puede hacer con \texttt {pl}?}{4}
+\contentsline {subsection}{\numberline {3.2}Archivos aceptados por \texttt {pl}}{5}
+\contentsline {subsection}{\numberline {3.3}Argumentos de \texttt {pl}}{6}
+\contentsline {subsection}{\numberline {3.4}Colores utilizados en las gr\IeC {\'a}ficas}{8}
+\contentsline {section}{\numberline {4}Conclusi\IeC {\'o}n}{9}
+\contentsline {section}{\numberline {5}Bibliograf\IeC {\'\i }a}{9}

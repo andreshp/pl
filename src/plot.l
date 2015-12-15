@@ -34,6 +34,11 @@ const int parameter_length = 2;
 Plotter pl;
 
 /**
+ * @brief Obtain a string from the imput with no blancs.
+ */
+string parseInput(char* input, int size);
+
+/**
  * @brief Converts a string of the form r,g,b to the rgb tuple with the values.
  * @param rgb String with a rgb tuple writen as r,g,b or (r,g,b).
  * @param red Variable where the red value will be saved.
@@ -54,12 +59,13 @@ vector<string> split(const string &s, char delim = ' ');
 letter              [a-zA-Z]
 digit               [0-9]
 number              {digit}+
-space               [ \t]+
+space               [ \t]*
 other_characters    [!#$%&'\*\+-\/=?\^_`{\|}~.]
 
 delimiter           ["']
 character           {letter}|{digit}|{other_characters}
 char_delimited      {delimiter}({character}|{space}){delimiter}
+char                {character}|{char_delimited}
 
 word                ({letter}|{digit}|{other_characters})+
 
@@ -74,61 +80,42 @@ style               (lines|points|linespoints|l|p|lp)
 
     /*-------------------------- Rules Section -------------------------------*/
 
--c{color_name}            {pl.setBaseColor((string) &yytext[parameter_length]);   }
--c{space}{color_name}     {pl.setBaseColor((string) &yytext[parameter_length+1]); }
+-c{space}{color_name}     {pl.setBaseColor(parseInput(yytext, yyleng));        }
 
--c{color_rgb}             {int red, green, blue;
-                           string rgb = (string) &yytext[parameter_length];
-                           stringToRGB(rgb, red, green, blue);
-                           pl.setBaseColor(red, green, blue);                  }
 -c{space}{color_rgb}      {int red, green, blue;
-                           string rgb = (string) &yytext[parameter_length+1];
+                           string rgb = parseInput(yytext, yyleng);
                            stringToRGB(rgb, red, green, blue);
                            pl.setBaseColor(red, green, blue);                  }
 
--d{character}             {pl.setFileDelimiter((char)yytext[parameter_length]);   }
--d{space}{character}      {pl.setFileDelimiter((char)yytext[parameter_length+1]); }
--d{char_delimited}        {pl.setFileDelimiter((char)yytext[parameter_length+1]); }
--d{space}{char_delimited} {pl.setFileDelimiter((char)yytext[parameter_length+2]); }
+-d{space}{char}      {pl.setFileDelimiter(parseInput(yytext, yyleng)[0]);      }
 
--e                   {system( ("python3 " + getSelfPath() + "/script/example.py").c_str() ); exit(0);          }
+-e                   {system( ("python3 " + getSelfPath() + "/script/example.py").c_str() ); exit(0); }
 
--f{space}{word}      {pl.addFileName((string)&yytext[parameter_length+1]);     }
--f{word}             {pl.addFileName((string)&yytext[parameter_length]);       }
--f{space}{line}      {pl.addFileNames(split(((string)&yytext[parameter_length+1]).substr(1, yyleng - parameter_length - 3))); }
--f{line}             {pl.addFileNames(split(((string)&yytext[parameter_length]).substr(1, yyleng - parameter_length - 2)));   }
+-f{space}{word}      {pl.addFileName(parseInput(yytext, yyleng));              }
+-f{space}{line}      {pl.addFileNames(split(parseInput(yytext, yyleng)));       }
 
--h                   {pl.help(); exit(0);}
+-h                   {pl.help(); exit(0);                                      }
 
--k                   {pl.keepPlotFile();}
+-k                   {pl.keepPlotFile();                                       }
 
--l                   {pl.setLegend();}
+-l                   {pl.setLegend();                                          }
 
--kl                   {pl.keepPlotFile(); pl.setLegend();}
+-kl                   {pl.keepPlotFile(); pl.setLegend();                      }
 
--o{space}{word}      {pl.setOutputName((string)&yytext[parameter_length+1]);   }
--o{word}             {pl.setOutputName((string)&yytext[parameter_length]);     }
+-o{space}{word}      {pl.setOutputName(parseInput(yytext, yyleng));            }
 
--s{style}            {pl.setStyle((string)&yytext[parameter_length]);          }
--s{space}{style}     {pl.setStyle((string)&yytext[parameter_length+1]);        }
+-s{space}{style}     {pl.setStyle(parseInput(yytext, yyleng));                 }
 
--t{space}{word}      {pl.setTitle((string)&yytext[parameter_length+1]);        }
--t{word}             {pl.setTitle((string)&yytext[parameter_length]);          }
--t{space}{line}      {pl.setTitle(((string)&yytext[parameter_length+1]).substr(1, yyleng - parameter_length-3));    }
--t{line}             {pl.setTitle(((string)&yytext[parameter_length]).substr(1, yyleng - parameter_length-2));      }
+-t{space}{word}      {pl.setTitle(parseInput(yytext, yyleng));                 }
+-t{space}{line}      {pl.setTitle(parseInput(yytext, yyleng)); }
 
--w{space}{number}    {pl.setLineWidth(atoi(&yytext[parameter_length+1]));      }
--w{number}           {pl.setLineWidth(atoi(&yytext[parameter_length]));        }
+-w{space}{number}    {pl.setLineWidth(atoi(parseInput(yytext, yyleng).c_str()));}
 
--x{word}             {pl.setXLabel((string) &yytext[parameter_length]);}
--x{space}{word}      {pl.setXLabel((string) &yytext[parameter_length+1]);}
--x{line}             {pl.setXLabel(((string)&yytext[parameter_length]).substr(1, yyleng - parameter_length-2));}
--x{space}{line}      {pl.setXLabel(((string)&yytext[parameter_length+1]).substr(1, yyleng - parameter_length-3));}
+-x{space}{word}      {pl.setXLabel(parseInput(yytext, yyleng));                }
+-x{space}{line}      {pl.setXLabel(parseInput(yytext, yyleng));}
 
--y{word}             {pl.setYLabel((string) &yytext[parameter_length]);}
--y{space}{word}      {pl.setYLabel((string) &yytext[parameter_length+1]);}
--y{line}             {pl.setYLabel(((string)&yytext[parameter_length]).substr(1, yyleng - parameter_length-2));}
--y{space}{line}      {pl.setYLabel(((string)&yytext[parameter_length+1]).substr(1, yyleng - parameter_length-3));}
+-y{space}{word}      {pl.setYLabel(parseInput(yytext, yyleng));                }
+-y{space}{line}      {pl.setYLabel(parseInput(yytext, yyleng));}
 
 {word}\.{word}       {pl.addFileName((string)yytext);}
 
@@ -142,6 +129,20 @@ style               (lines|points|linespoints|l|p|lp)
 // Point to other file which will be analyzed afterwards.
 int yywrap() {
     return 1;
+}
+
+// Implementation of the parse input procedure.
+string parseInput(char* input, int size) {
+    int pos = parameter_length;
+    while (pos < size && (input[pos] == ' ' || input[pos] == '\t' || input[pos] == '\n' || input[pos] == '"' || input[pos] == '\''))
+        pos++;
+
+    string new_input((string) &input[pos]);
+
+    if (new_input[new_input.size()-1] == '"' || new_input[new_input.size()-1] == '\'')
+        return new_input.substr(0,new_input.size()-1);
+
+    return new_input;
 }
 
 // Implementation of the split procedure.
