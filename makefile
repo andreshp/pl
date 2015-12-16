@@ -34,11 +34,11 @@ EXECUTABLE=pl
 #---------------------------------- Rules -------------------------------------#
 
 # Compile the whole project.
-compile: check_gnuplot check_lex make_directories $(BIN)/$(EXECUTABLE) final_comments
+compile: check_gnuplot make_directories $(BIN)/$(EXECUTABLE) final_comments
 
 # Check if gnuplot is installed. If it is not, then tell the user to install it.
 check_gnuplot:
-	@if [ `dpkg-query -W gnuplot | grep -c "no packages found"` = 1 ]; then \
+	@if [ ! "`dpkg -l | grep -E '^ii' | grep " gnuplot "`" ]; then \
 		echo "The program gnuplot is required.\nPlease, install it using the following command:\n"; \
 		echo "sudo apt-get install gnuplot\n"; \
 		exit 2; \
@@ -46,7 +46,7 @@ check_gnuplot:
 
 # Check if lex is installed. If it is not, then tell the user to install it.
 check_lex:
-	@if [ `dpkg-query -W flex | grep -c "no packages found"` = 1 ]; then \
+	@if [ ! "`dpkg -l | grep -E '^ii' | grep " flex "`" ]; then \
 		echo "The program flex is required.\nPlease, install it using the following command:\n"; \
 		echo "sudo apt-get install flex\n"; \
 		exit 2; \
@@ -57,7 +57,6 @@ make_directories:
 	@echo "Building all the directories..."
 	mkdir -p $(BIN)
 	mkdir -p $(OBJ)
-
 
 final_comments:
 	@echo "\nIf you want to use pl as an usual bash command, then add the following code to your .bashrc file:"
@@ -86,12 +85,13 @@ $(OBJ)/Color.o: $(INCLUDE)/Color.h $(SRC)/Color.cpp
 # Obtain the code Parser.c
 $(SRC)/Parser.c: $(SRC)/plot.l
 	@echo "Parsing the lex code $<..."
+	$(MAKE) check_lex
 	lex -o $@ $<
 
 # Clean the files .o, .a and the executables.
 clean:
 	@echo "Cleaning the files .o, .a and the executables..."
-	rm $(OBJ)/*.o $(BIN)/* $(LIB)/*.a
+	rm $(OBJ)/*.o $(BIN)/*
 
 # Makes the doxygen documentation.
 document:

@@ -183,15 +183,6 @@ vector<Color> ColorAlgorithms::generateColorsHue(int number_colors) {
     for (int i = 0; i < number_colors; i++){
         Color new_color((double) i / number_colors, saturation, value);
         chosen_colors.push_back(new_color);
-
-        // Update value
-//        if ( (i+1) % colors_per_value == 0)
-//            value += (1-value)*0.5;
-
-        // Update saturation
-//        if ( (i+1) % colors_per_value == 0 )
-//            saturation += (1-saturation) * 0.5;
-
     }
 
     return chosen_colors;
