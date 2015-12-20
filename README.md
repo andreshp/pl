@@ -1,6 +1,6 @@
 # `pl`
 
-A plot command based on gnuplot.
+A simple plot command based on gnuplot.
 
 ## What can `pl` do for you?
 
